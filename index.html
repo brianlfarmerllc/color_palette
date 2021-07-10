@@ -15,7 +15,7 @@
 
   <body>
     <main>
-      <!-- Start Colors Pallete Section -->
+      <!-- Start Colors palette Section -->
       <section class="colors">
         <!-- Start of first color -->
         <div class="color">
@@ -205,7 +205,7 @@
               max="360"
               step="1"
               name="hue"
-              class="hue-input"
+              class="range_slider hue-input"
               data-hue="4"
             />
             <span>Brightness</span>
@@ -215,7 +215,7 @@
               max="1"
               step="0.01"
               name="brightness"
-              class="bright-input"
+              class="range_slider bright-input"
               data-bright="4"
             />
             <span>Saturation</span>
@@ -225,14 +225,14 @@
               max="1"
               step="0.01"
               name="saturation"
-              class="sat-input"
+              class="range_slider sat-input"
               data-sat="4"
             />
           </div>
         </div>
         <!-- End of Fifth Color  -->
       </section>
-      <!-- End  Colors Pallete Section -->
+      <!-- End  Colors palette Section -->
 
       <!-- Start Options Panel Section -->
       <section class="panel">
@@ -262,31 +262,37 @@
       </div>
       <!-- End modal for copy notification -->
 
-      <!-- Start modal to save pallete -->
+      <!-- Start modal to save palette -->
       <div class="modal save-container">
         <div class="save-popup">
           <button class="close-save">X</button>
-          <h4>Give a name to your pallete</h4>
+          <h4>Give a name to your palette</h4>
           <input type="text" max-length="35" class="save-name" />
           <button type="submit" class="submit-save">Save</button>
         </div>
       </div>
-      <!-- End modal to save pallete -->
+      <!-- End modal to save palette -->
 
-      <!-- Start modal to access saved palletes in library -->
+      <!-- Start modal to access saved palettes in library -->
       <div class="modal library-contatiner">
         <div class="library-popup">
           <button class="close-library">X</button>
-          <h4>Pick your pallete</h4>
+          <h4>Pick your palette</h4>
         </div>
       </div>
-      <!-- Start modal to access saved palletes in library -->
+      <!-- Start modal to access saved palettes in library -->
 
       <!-- End Modal Boxes -->
     </main>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
       integrity="sha512-RXf+QSDCUQs5uwRKaDoXt55jygZZm2V++WUZduaU/Ui/9EGp3f/2KZVahFZBKGH0s774sd3HmrhUy+SgOFQLVQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"
+      integrity="sha512-yocoLferfPbcwpCMr8v/B0AB4SWpJlouBwgE0D3ZHaiP1nuu5djZclFEIj9znuqghaZ3tdCMRrreLoM8km+jIQ=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
