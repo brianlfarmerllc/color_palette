@@ -30,26 +30,29 @@
   position: absolute;
   bottom: 0;
   background: rgb(255, 255, 255);
-  //   opacity: 0;
+  opacity: 0;
   padding: 1rem;
   width: 80%;
-  //   pointer-events: none;
+  pointer-events: none;
   border-top-right-radius: 1rem;
   border-top-left-radius: 1rem;
-  //   transform: translateY(100px);
+  transform: translateY(100px);
   transition: all 0.5s ease-in-out;
   button {
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0.5rem;
-    border-top-left-radius: 1rem;
+    padding: 0.6rem;
+    border-top-right-radius: 0.9rem;
     border-bottom-left-radius: 1rem;
     border: none;
     background: rgb(73, 73, 73);
     color: white;
     cursor: pointer;
     font-weight: bold;
+  }
+  span {
+    color: rgb(31, 33, 63);
   }
   input[type="range"] {
     -webkit-appearance: none;
@@ -58,12 +61,35 @@
     position: relative;
     border-radius: 1rem;
     cursor: pointer;
+    border: solid thin;
   }
-  .active {
-    opacity: 1;
-    transform: translateY(0px);
-    pointer-events: all;
+  // custom thumb properties chrome
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    border: solid thin;
   }
+
+  // custom thumb properties firefox
+  input[type="range"]::-moz-range-thumb {
+    -webkit-appearance: none;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    border: solid thin;
+  }
+}
+
+.sliders.active {
+  opacity: 1;
+  transform: translateY(0px);
+  pointer-events: all;
 }
 
 .controls {
@@ -106,4 +132,39 @@
 
 .modal {
   display: none;
+}
+
+.copy-container {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  bottom: 0%;
+  right: 0%;
+  background: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.5s ease-in-out;
+  .copy-popup {
+    background: white;
+    min-width: 30%;
+    min-height: 20vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 2rem;
+    transform: translateY(-2rem);
+    transition: transform 0.5s ease;
+  }
+}
+
+.copy-container.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.copy-popup.active {
+  transform: translateY(0rem);
 }

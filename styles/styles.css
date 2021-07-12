@@ -76,10 +76,14 @@ svg {
   position: absolute;
   bottom: 0;
   background: white;
+  opacity: 0;
   padding: 1rem;
   width: 80%;
+  pointer-events: none;
   border-top-right-radius: 1rem;
   border-top-left-radius: 1rem;
+  -webkit-transform: translateY(100px);
+          transform: translateY(100px);
   -webkit-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
@@ -88,14 +92,18 @@ svg {
   position: absolute;
   top: 0;
   right: 0;
-  padding: 0.5rem;
-  border-top-left-radius: 1rem;
+  padding: 0.6rem;
+  border-top-right-radius: 0.9rem;
   border-bottom-left-radius: 1rem;
   border: none;
   background: #494949;
   color: white;
   cursor: pointer;
   font-weight: bold;
+}
+
+.sliders span {
+  color: #1f213f;
 }
 
 .sliders input[type="range"] {
@@ -105,9 +113,30 @@ svg {
   position: relative;
   border-radius: 1rem;
   cursor: pointer;
+  border: solid thin;
 }
 
-.sliders .active {
+.sliders input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  border: solid thin;
+}
+
+.sliders input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  border: solid thin;
+}
+
+.sliders.active {
   opacity: 1;
   -webkit-transform: translateY(0px);
           transform: translateY(0px);
@@ -176,5 +205,57 @@ svg {
 
 .modal {
   display: none;
+}
+
+.copy-container {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  bottom: 0%;
+  right: 0%;
+  background: rgba(0, 0, 0, 0.5);
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+.copy-container .copy-popup {
+  background: white;
+  min-width: 30%;
+  min-height: 20vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 2rem;
+  -webkit-transform: translateY(-2rem);
+          transform: translateY(-2rem);
+  -webkit-transition: -webkit-transform 0.5s ease;
+  transition: -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, -webkit-transform 0.5s ease;
+}
+
+.copy-container.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.copy-popup.active {
+  -webkit-transform: translateY(0rem);
+          transform: translateY(0rem);
 }
 /*# sourceMappingURL=styles.css.map */
