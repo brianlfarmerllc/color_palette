@@ -242,18 +242,6 @@ svg {
   width: 2rem;
 }
 
-.select-palette {
-  height: 4rem;
-  padding: 1rem;
-  font-size: 1.2rem;
-  margin: 1rem;
-  background: #1f213f;
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 1rem;
-}
-
 .modal {
   display: none;
 }
@@ -356,6 +344,21 @@ svg {
   border: solid #494949;
   border-radius: 0.5rem;
   padding: 0rem 1rem;
+}
+
+.save-popup .select-palette,
+.save-popup .delete-palette,
+.library-popup .select-palette,
+.library-popup .delete-palette {
+  height: 4rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  margin: 1rem;
+  background: #1f213f;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 1rem;
 }
 
 .copy-container.active,

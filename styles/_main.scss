@@ -154,17 +154,17 @@
   width: 2rem;
 }
 
-.select-palette {
-  height: 4rem;
-  padding: 1rem;
-  font-size: 1.2rem;
-  margin: 1rem;
-  background: rgb(31, 33, 63);
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 1rem;
-}
+// .select-palette {
+//   height: 4rem;
+//   padding: 1rem;
+//   font-size: 1.2rem;
+//   margin: 1rem;
+//   background: rgb(31, 33, 63);
+//   border: none;
+//   color: white;
+//   cursor: pointer;
+//   border-radius: 1rem;
+// }
 
 .modal {
   display: none;
@@ -234,6 +234,18 @@
     border: solid rgb(73, 73, 73);
     border-radius: 0.5rem;
     padding: 0rem 1rem;
+  }
+  .select-palette,
+  .delete-palette {
+    height: 4rem;
+    padding: 1rem;
+    font-size: 1.2rem;
+    margin: 1rem;
+    background: rgb(31, 33, 63);
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 1rem;
   }
 }
 

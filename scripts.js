@@ -16,12 +16,12 @@ let initialColors;
 
 // Functions --------------------------------------------------
 
-// Generate random hex
+// Generate Random Hex
 function generateHex() {
   return chroma.random();
 }
 
-// Assign random color hex value to each colors div
+// Assign Random Color Hex Value To Each Color Div
 function randomColors() {
   initialColors = [];
   colorDivs.forEach((div, index) => {
@@ -37,17 +37,17 @@ function randomColors() {
 
     const icons = div.querySelectorAll(".controls button");
 
-    //add color and hash
+    // Add Color And Hash
     div.style.backgroundColor = randomColor;
     colorH2.innerText = randomColor;
 
-    //check for contrast
+    // Check For Contrast
     checkTextContrast(randomColor, colorH2);
     for (icon of icons) {
       checkTextContrast(randomColor, icon);
     }
 
-    //initial color slider
+    // Initial Color Slider
     const color = chroma(randomColor);
     const sliders = div.querySelectorAll(".sliders input");
     const hue = sliders[0];
@@ -59,7 +59,7 @@ function randomColors() {
   resetInputs();
 }
 
-// check color luminance for contrast with text and icons
+// Check Color Luminance Contrast With Text And Icons
 function checkTextContrast(color, text) {
   const luminance = chroma(color).luminance();
   if (luminance > 0.3) {
@@ -69,7 +69,7 @@ function checkTextContrast(color, text) {
   }
 }
 
-// updates the range slider background color
+// Range Slider Background Color
 function colorizeSliders(color, hue, brightness, saturation) {
   const noSat = color.set("hsl.s", 0);
   const fullSat = color.set("hsl.s", 1);
@@ -85,7 +85,7 @@ function colorizeSliders(color, hue, brightness, saturation) {
   hue.style.backgroundImage = `linear-gradient(to right, #FF0000, #FFFF00, #00FF00, #00FFFF, #0000FF, #FF00FF, #FF0000)`;
 }
 
-// Sets the color div background when adjusting the sliders
+// Update Color Div Background After Slider
 function hslControls(e) {
   const index =
     e.target.getAttribute("data-bright") ||
@@ -109,7 +109,7 @@ function hslControls(e) {
   colorizeSliders(color, hue, brightness, saturation);
 }
 
-// update the hex value displayed in color div after updating slider
+// Update Hex Value In Color Div After Slider
 function updateTextUI(index) {
   const activeDiv = colorDivs[index];
   const color = chroma(activeDiv.style.backgroundColor);
@@ -125,7 +125,7 @@ function updateTextUI(index) {
   }
 }
 
-// range slider value of hue, saturation, and brightness values from generated color
+// Range Slider Hue, Saturation, and Brightness Values
 function resetInputs() {
   sliders.forEach((slider) => {
     if (slider.name === "hue") {
@@ -146,8 +146,9 @@ function resetInputs() {
   });
 }
 
-// copies hex value to clipboard
+// Copies Hex Value To Clipboard
 function copyToClipboard(hex) {
+  // Create / Destroy Copy Element
   const el = document.createElement("textarea");
   el.value = hex.innerText;
   document.body.appendChild(el);
@@ -155,28 +156,30 @@ function copyToClipboard(hex) {
   document.execCommand("copy");
   document.body.removeChild(el);
 
+  // Opens Confirmation Modal
   const popup = document.querySelector(".copy-container");
-
   popup.classList.add("active");
   popup.children[0].classList.add("active");
 
+  // Closes Modal After 1 Sec
   setTimeout(() => {
     popup.classList.remove("active");
     popup.children[0].classList.remove("active");
   }, 1000);
 }
 
-// opens slider adjustment pannel
+// Opens Slider Adjustment Pannel
 function openAdjustmentPannel(index) {
   sliderContainers[index].classList.toggle("active");
 }
 
-// locks color in the palette during generate
+// Locks Color Palette During Generate
 function lockColor(index) {
   const lockBtn = controls[index].children[1];
   colorDivs[index].classList.toggle("locked");
   lockBtn.classList.toggle("locked");
 
+  // Toggle Lock Icon
   if (lockBtn.classList.contains("locked")) {
     lockBtn.innerHTML = `<i class="fas fa-lock"></i>`;
   } else {
@@ -208,9 +211,10 @@ function LibraryPopup() {
   } else {
     localPalettes = JSON.parse(localStorage.getItem("palettes"));
   }
-
+  // Generate Paletts Before Open
   generateLibrary(localPalettes);
 
+  // Open Library
   const popup = document.querySelector(".library-container");
   popup.classList.add("active");
   popup.children[0].classList.add("active");
@@ -224,8 +228,10 @@ function closeLibraryPopup() {
 }
 
 function generateLibrary(localPalettes) {
+  // Clean Items From Library
   libraryPalettes.innerHTML = "";
 
+  // Create Library Items And Append To Library Modal
   localPalettes.forEach((palette) => {
     const libraryItem = document.createElement("div");
     libraryItem.classList.add("library-item");
@@ -248,6 +254,14 @@ function generateLibrary(localPalettes) {
       selectPalette(e);
     });
 
+    const deleteBtn = document.createElement("button");
+    deleteBtn.innerText = "Delete";
+    deleteBtn.classList.add("delete-palette");
+    deleteBtn.setAttribute("data-nr", palette.nr);
+    deleteBtn.addEventListener("click", (e) => {
+      deletePalette(e);
+    });
+
     paletteColor.forEach((color) => {
       const smallColorDiv = document.createElement("div");
       smallColorDiv.style.backgroundColor = color;
@@ -257,6 +271,7 @@ function generateLibrary(localPalettes) {
     libraryItem.appendChild(nameH3);
     libraryItem.appendChild(smallPalette);
     libraryItem.appendChild(selectBtn);
+    libraryItem.appendChild(deleteBtn);
 
     libraryPalettes.appendChild(libraryItem);
   });
@@ -264,11 +279,6 @@ function generateLibrary(localPalettes) {
 
 //
 function savePalette() {
-  //Close Save Modal
-  const popup = document.querySelector(".save-container");
-  popup.classList.remove("active");
-  popup.children[0].classList.remove("active");
-
   // Generate Palette Object
   const name = saveInput.value;
   const paletteColors = [];
@@ -290,6 +300,9 @@ function savePalette() {
 
   // Reset Name Value
   saveInput.value = "";
+
+  //Close Save Modal
+  closeSavePopup();
 }
 
 // Save Local Storage
@@ -307,7 +320,7 @@ function saveLocal(paletteObj) {
   localStorage.setItem("palettes", JSON.stringify(localPalettes));
 }
 
-// Select from Library Palette
+// Select From Library Palette
 function selectPalette(e) {
   const index = e.target.getAttribute("data-nr");
   const colorsArray = JSON.parse(localStorage.getItem("palettes"))[index].color;
@@ -319,17 +332,17 @@ function selectPalette(e) {
 
     const icons = div.querySelectorAll(".controls button");
 
-    //add color and hash
+    // Add Color And Hash
     div.style.backgroundColor = backgroundColor;
     colorH2.innerText = backgroundColor;
 
-    //check for contrast
+    // Check For Contrast
     checkTextContrast(backgroundColor, colorH2);
     for (icon of icons) {
       checkTextContrast(backgroundColor, icon);
     }
 
-    //initial color slider
+    // Initial Color Slider
     const color = chroma(backgroundColor);
     const sliders = div.querySelectorAll(".sliders input");
     const hue = sliders[0];
@@ -339,6 +352,27 @@ function selectPalette(e) {
     colorizeSliders(color, hue, brightness, saturation);
   });
   closeLibraryPopup();
+}
+
+// Delete Palette
+function deletePalette(e) {
+  // Filter Local Storage For Deleted Item
+  const index = e.target.getAttribute("data-nr");
+  const localItems = JSON.parse(localStorage.getItem("palettes"));
+  const filtered = localItems.filter((el) => el.nr != index);
+
+  // Assign New Key Value And Set Local Storage
+  let newLocal = [];
+
+  filtered.forEach((palette, index) => {
+    const paletteObj = { name: palette.name, color: palette.color, nr: index };
+    newLocal.push(paletteObj);
+  });
+
+  localStorage.setItem("palettes", JSON.stringify(newLocal));
+
+  // New Library Minus Deleted Item
+  generateLibrary(newLocal);
 }
 
 //Invocation
