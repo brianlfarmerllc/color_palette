@@ -203,11 +203,64 @@ svg {
   font-size: 1.2rem;
 }
 
+.palette-list {
+  width: 90%;
+}
+
+.library-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.palette-name {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.small-palette {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.small-color {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  height: 4rem;
+  width: 2rem;
+}
+
+.select-palette {
+  height: 4rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  margin: 1rem;
+  background: #1f213f;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 1rem;
+}
+
 .modal {
   display: none;
 }
 
-.copy-container {
+.copy-container,
+.save-container,
+.library-container {
   position: fixed;
   top: 0%;
   left: 0%;
@@ -223,9 +276,17 @@ svg {
   transition: all 0.5s ease-in-out;
 }
 
-.copy-container .copy-popup {
+.copy-container .copy-popup,
+.copy-container .save-popup,
+.copy-container .library-popup,
+.save-container .copy-popup,
+.save-container .save-popup,
+.save-container .library-popup,
+.library-container .copy-popup,
+.library-container .save-popup,
+.library-container .library-popup {
   background: white;
-  min-width: 30%;
+  min-width: 40%;
   min-height: 20vh;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -249,12 +310,64 @@ svg {
   transition: transform 0.5s ease, -webkit-transform 0.5s ease;
 }
 
-.copy-container.active {
+.copy-container .copy-popup .title,
+.copy-container .save-popup .title,
+.copy-container .library-popup .title,
+.save-container .copy-popup .title,
+.save-container .save-popup .title,
+.save-container .library-popup .title,
+.library-container .copy-popup .title,
+.library-container .save-popup .title,
+.library-container .library-popup .title {
+  padding: 2rem 0rem;
+}
+
+.save-popup .close-save,
+.save-popup .close-library,
+.library-popup .close-save,
+.library-popup .close-library {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.6rem;
+  border-top-right-radius: 0.9rem;
+  border-bottom-left-radius: 1rem;
+  border: none;
+  background: #494949;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.save-popup .submit-save,
+.library-popup .submit-save {
+  padding: 0.7rem 1rem;
+  border-radius: 0.9rem;
+  border: none;
+  background: #494949;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.save-popup .save-name,
+.library-popup .save-name {
+  font-size: 1.7rem;
+  border: solid #494949;
+  border-radius: 0.5rem;
+  padding: 0rem 1rem;
+}
+
+.copy-container.active,
+.save-container.active,
+.library-container.active {
   opacity: 1;
   pointer-events: all;
 }
 
-.copy-popup.active {
+.copy-popup.active,
+.save-popup.active,
+.library-popup.active {
   -webkit-transform: translateY(0rem);
           transform: translateY(0rem);
 }

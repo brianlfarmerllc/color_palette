@@ -1,13 +1,21 @@
-// Global selections and variables
+// Global selections and variables -----------------------------
 const colorDivs = document.querySelectorAll(".color");
 const currentHex = document.querySelectorAll(".color h2");
 const controls = document.querySelectorAll(".controls");
-const generateBtn = document.querySelector(".generate");
 const sliderContainers = document.querySelectorAll(".sliders");
 const sliders = document.querySelectorAll('input[type="range"]');
+const generateBtn = document.querySelector(".generate");
+const saveBtn = document.querySelector(".save");
+const saveInput = document.querySelector(".save-container input");
+const submitSave = document.querySelector(".submit-save");
+const closeSave = document.querySelector(".close-save");
+const libraryBtn = document.querySelector(".library");
+const closeLibrary = document.querySelector(".close-library");
+const libraryPalettes = document.querySelector(".palette-list");
+let savedPalettes = [];
 let initialColors;
 
-// Functions
+// Functions --------------------------------------------------
 
 // Generate random hex
 function generateHex() {
@@ -159,10 +167,12 @@ function copyToClipboard(hex) {
   }, 1000);
 }
 
+// opens slider adjustment pannel
 function openAdjustmentPannel(index) {
   sliderContainers[index].classList.toggle("active");
 }
 
+// locks color in the palette during generate
 function lockColor(index) {
   const lockBtn = controls[index].children[1];
   colorDivs[index].classList.toggle("locked");
@@ -175,50 +185,176 @@ function lockColor(index) {
   }
 }
 
-//invocation
+// Opens Save Palette Popup
+function savePopup() {
+  const popup = document.querySelector(".save-container");
+  popup.classList.add("active");
+  popup.children[0].classList.add("active");
+}
+
+// Closes Save Palette Popup
+function closeSavePopup() {
+  const popup = document.querySelector(".save-container");
+  popup.classList.remove("active");
+  popup.children[0].classList.remove("active");
+}
+
+// Opens Library Popup
+function LibraryPopup() {
+  let localPalettes;
+
+  // Check Local Storage Before Save
+  if (localStorage.getItem("palettes") === null) {
+    localPalettes = "No Color Palettes Saved";
+  } else {
+    localPalettes = JSON.parse(localStorage.getItem("palettes"));
+  }
+
+  generateLibrary(localPalettes);
+
+  const popup = document.querySelector(".library-container");
+  popup.classList.add("active");
+  popup.children[0].classList.add("active");
+}
+
+// Closes Library Popup
+function closeLibraryPopup() {
+  const popup = document.querySelector(".library-container");
+  popup.classList.remove("active");
+  popup.children[0].classList.remove("active");
+}
+
+function generateLibrary(localPalettes) {
+  libraryPalettes.innerHTML = "";
+
+  localPalettes.forEach((palette) => {
+    const libraryItem = document.createElement("div");
+    libraryItem.classList.add("library-item");
+
+    const paletteName = palette.name;
+    const paletteColor = palette.color;
+
+    const nameH3 = document.createElement("h3");
+    nameH3.innerText = paletteName;
+    nameH3.classList.add("palette-name");
+
+    const smallPalette = document.createElement("div");
+    smallPalette.classList.add("small-palette");
+
+    const selectBtn = document.createElement("button");
+    selectBtn.innerText = "Select";
+    selectBtn.classList.add("select-palette");
+
+    paletteColor.forEach((color) => {
+      const smallColorDiv = document.createElement("div");
+      smallColorDiv.style.backgroundColor = color;
+      smallColorDiv.classList.add("small-color");
+      smallPalette.appendChild(smallColorDiv);
+    });
+    libraryItem.appendChild(nameH3);
+    libraryItem.appendChild(smallPalette);
+    libraryItem.appendChild(selectBtn);
+
+    libraryPalettes.appendChild(libraryItem);
+  });
+}
+
+//
+function savePalette() {
+  //Close Save Modal
+  const popup = document.querySelector(".save-container");
+  popup.classList.remove("active");
+  popup.children[0].classList.remove("active");
+
+  // Generate Palette Object
+  const name = saveInput.value;
+  const paletteColors = [];
+  currentHex.forEach((hex) => paletteColors.push(hex.innerText));
+  let PaletteNr = savedPalettes.length;
+  const paletteObj = { name: name, color: paletteColors, nr: PaletteNr };
+  savedPalettes.push(paletteObj);
+
+  // Save to Local Storage
+  saveLocal(paletteObj);
+
+  // Reset Name Value
+  saveInput.value = "";
+}
+
+// Save Local Storage
+function saveLocal(paletteObj) {
+  let localPalettes;
+
+  // Check Local Storage Before Save
+  if (localStorage.getItem("palettes") === null) {
+    localPalettes = [];
+  } else {
+    localPalettes = JSON.parse(localStorage.getItem("palettes"));
+  }
+  // Save To Local Storage
+  localPalettes.push(paletteObj);
+  localStorage.setItem("palettes", JSON.stringify(localPalettes));
+}
+
+//Invocation
 randomColors();
 
-// Event listeners
+// Event listeners  ---------------------------------
 
-// generate new colors with button
+// On Generate Button
 generateBtn.addEventListener("click", randomColors);
 
-// change background color when move slider
+// On Save Button
+saveBtn.addEventListener("click", savePopup);
+
+// Save Modal Close Button
+closeSave.addEventListener("click", closeSavePopup);
+
+// Save Modal Save Button
+submitSave.addEventListener("click", savePalette);
+
+// On Library Button
+libraryBtn.addEventListener("click", LibraryPopup);
+
+// Library Modal Close Button
+closeLibrary.addEventListener("click", closeLibraryPopup);
+
+// On Sliders
 sliders.forEach((slider) => {
   slider.addEventListener("input", (e) => {
     hslControls(e);
   });
 });
 
-// change hex value after slider relsease
+// On Color Divs
 colorDivs.forEach((div, index) => {
   div.addEventListener("change", () => {
     updateTextUI(index);
   });
 });
 
-// click to copy hex value
+// On Hex Values
 currentHex.forEach((hex) => {
   hex.addEventListener("click", () => {
     copyToClipboard(hex);
   });
 });
 
-// opens and closes slider when clicking on slider control button
+// On Slider Icon
 controls.forEach((control, index) => {
   control.children[0].addEventListener("click", () => {
     openAdjustmentPannel(index);
   });
 });
 
-// closes slider panel when clicking on close button
+// Slider Panel Close Button
 sliderContainers.forEach((container, index) => {
   container.children[0].addEventListener("click", () => {
     openAdjustmentPannel(index);
   });
 });
 
-// locks the current color from being regenerated
+// On Lock Icon
 controls.forEach((control, index) => {
   control.children[1].addEventListener("click", () => {
     lockColor(index);

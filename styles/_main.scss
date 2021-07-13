@@ -130,11 +130,49 @@
   }
 }
 
+.palette-list {
+  width: 90%;
+}
+
+.library-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.palette-name {
+  flex: 1;
+}
+
+.small-palette {
+  flex: 1;
+  display: flex;
+}
+
+.small-color {
+  flex: 1;
+  height: 4rem;
+  width: 2rem;
+}
+
+.select-palette {
+  height: 4rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  margin: 1rem;
+  background: rgb(31, 33, 63);
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 1rem;
+}
+
 .modal {
   display: none;
 }
-
-.copy-container {
+// modal styles
+.copy-container,
+.save-container,
+.library-container {
   position: fixed;
   top: 0%;
   left: 0%;
@@ -146,9 +184,11 @@
   opacity: 0;
   pointer-events: none;
   transition: all 0.5s ease-in-out;
-  .copy-popup {
+  .copy-popup,
+  .save-popup,
+  .library-popup {
     background: white;
-    min-width: 30%;
+    min-width: 40%;
     min-height: 20vh;
     display: flex;
     flex-direction: column;
@@ -157,14 +197,55 @@
     border-radius: 2rem;
     transform: translateY(-2rem);
     transition: transform 0.5s ease;
+    .title {
+      padding: 2rem 0rem;
+    }
   }
 }
 
-.copy-container.active {
+// save modal specific styles
+.save-popup,
+.library-popup {
+  .close-save,
+  .close-library {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.6rem;
+    border-top-right-radius: 0.9rem;
+    border-bottom-left-radius: 1rem;
+    border: none;
+    background: rgb(73, 73, 73);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .submit-save {
+    padding: 0.7rem 1rem;
+    border-radius: 0.9rem;
+    border: none;
+    background: rgb(73, 73, 73);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .save-name {
+    font-size: 1.7rem;
+    border: solid rgb(73, 73, 73);
+    border-radius: 0.5rem;
+    padding: 0rem 1rem;
+  }
+}
+
+.copy-container.active,
+.save-container.active,
+.library-container.active {
   opacity: 1;
   pointer-events: all;
 }
 
-.copy-popup.active {
+.copy-popup.active,
+.save-popup.active,
+.library-popup.active {
   transform: translateY(0rem);
 }
