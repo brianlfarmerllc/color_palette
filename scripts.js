@@ -12,7 +12,6 @@ const closeSave = document.querySelector(".close-save");
 const libraryBtn = document.querySelector(".library");
 const closeLibrary = document.querySelector(".close-library");
 const libraryPalettes = document.querySelector(".palette-list");
-let savedPalettes = [];
 let initialColors;
 
 // Functions --------------------------------------------------
@@ -244,6 +243,10 @@ function generateLibrary(localPalettes) {
     const selectBtn = document.createElement("button");
     selectBtn.innerText = "Select";
     selectBtn.classList.add("select-palette");
+    selectBtn.setAttribute("data-nr", palette.nr);
+    selectBtn.addEventListener("click", (e) => {
+      selectPalette(e);
+    });
 
     paletteColor.forEach((color) => {
       const smallColorDiv = document.createElement("div");
@@ -270,9 +273,17 @@ function savePalette() {
   const name = saveInput.value;
   const paletteColors = [];
   currentHex.forEach((hex) => paletteColors.push(hex.innerText));
-  let PaletteNr = savedPalettes.length;
+
+  let PaletteNr;
+
+  if (localStorage.getItem("palettes") === null) {
+    PaletteNr = 0;
+  } else {
+    const results = JSON.parse(localStorage.getItem("palettes"));
+    PaletteNr = results.length;
+  }
+
   const paletteObj = { name: name, color: paletteColors, nr: PaletteNr };
-  savedPalettes.push(paletteObj);
 
   // Save to Local Storage
   saveLocal(paletteObj);
@@ -294,6 +305,40 @@ function saveLocal(paletteObj) {
   // Save To Local Storage
   localPalettes.push(paletteObj);
   localStorage.setItem("palettes", JSON.stringify(localPalettes));
+}
+
+// Select from Library Palette
+function selectPalette(e) {
+  const index = e.target.getAttribute("data-nr");
+  const colorsArray = JSON.parse(localStorage.getItem("palettes"))[index].color;
+  initialColors = colorsArray;
+
+  colorDivs.forEach((div, index) => {
+    const colorH2 = div.children[0];
+    const backgroundColor = colorsArray[index];
+
+    const icons = div.querySelectorAll(".controls button");
+
+    //add color and hash
+    div.style.backgroundColor = backgroundColor;
+    colorH2.innerText = backgroundColor;
+
+    //check for contrast
+    checkTextContrast(backgroundColor, colorH2);
+    for (icon of icons) {
+      checkTextContrast(backgroundColor, icon);
+    }
+
+    //initial color slider
+    const color = chroma(backgroundColor);
+    const sliders = div.querySelectorAll(".sliders input");
+    const hue = sliders[0];
+    const brightness = sliders[1];
+    const saturation = sliders[2];
+
+    colorizeSliders(color, hue, brightness, saturation);
+  });
+  closeLibraryPopup();
 }
 
 //Invocation
